@@ -1,0 +1,11 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "tuasesordigital.vercel.app" }],
+      "destination": "https://tuasesordigital.com.ar/:path*",
+      "permanent": true
+    },
+    { "source": "/", "destination": "/retiro/", "permanent": false }
+  ]
+}
