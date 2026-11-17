@@ -32,7 +32,7 @@
   GADS_ID        -> Google Ads (AW-XXXXXXX) + etiquetas de conversión
 -->
 <script>
-window.TRACK={META_PIXEL_ID:"",GA4_ID:"",GADS_ID:"",GADS_LABEL_COTIZAR:"",GADS_LABEL_WHATSAPP:""};
+window.TRACK={META_PIXEL_ID:"1110322908295162",GA4_ID:"",GADS_ID:"",GADS_LABEL_COTIZAR:"",GADS_LABEL_WHATSAPP:""};
 (function(T){
   // --- Meta: Píxel (navegador) + API de Conversiones (servidor, /api/meta-capi) con el mismo event_id para deduplicar ---
   const ck=n=>{const m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?decodeURIComponent(m[1]):undefined};
@@ -474,7 +474,9 @@ if(!matchMedia("(prefers-reduced-motion: reduce)").matches)setInterval(()=>{rot.
 // --- eventos de conversión ---
 function track(tipo){
   const T=window.TRACK||{};
-  try{ window.metaEvent && metaEvent(tipo==='cotizar' ? 'Lead' : 'Contact', {content_name:'Seguro de Retiro', content_category:'seguro_retiro', cta:tipo}); }catch(e){}
+  // Lead en todos los CTA (cotizar, WhatsApp, llamada, correo); Contact además en los de contacto directo
+  try{ if(window.metaEvent){ const d={content_name:'Seguro de Retiro', content_category:'seguro_retiro', cta:tipo};
+    metaEvent('Lead', d); if(tipo!=='cotizar') metaEvent('Contact', d); } }catch(e){}
   try{ if(window.gtag){
     gtag('event', tipo==='cotizar' ? 'clic_cotizar' : 'clic_whatsapp', {event_category:'landing_retiro'});
     const lbl = tipo==='cotizar' ? T.GADS_LABEL_COTIZAR : T.GADS_LABEL_WHATSAPP;

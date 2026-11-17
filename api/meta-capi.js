@@ -3,7 +3,7 @@
 // el mismo event_id que usó el Píxel, para que Meta los deduplique.
 //
 // Variables de entorno (Vercel → Settings → Environment Variables):
-//   META_PIXEL_ID          ID del Píxel / Dataset de Meta (obligatoria)
+//   META_PIXEL_ID          ID del Píxel / Dataset de Meta (opcional, por defecto 1110322908295162)
 //   META_CAPI_TOKEN        Token de acceso de la API de Conversiones (obligatoria, secreta)
 //   META_TEST_EVENT_CODE   Código de prueba del Administrador de eventos (opcional, solo para testear)
 //   META_API_VERSION       Versión de la Graph API (opcional, por defecto v21.0)
@@ -38,7 +38,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: "method_not_allowed" });
   }
 
-  const pixelId = process.env.META_PIXEL_ID;
+  const pixelId = process.env.META_PIXEL_ID || "1110322908295162";
   const token = process.env.META_CAPI_TOKEN;
   if (!pixelId || !token) return res.status(204).end(); // sin configurar: no hace nada
 
